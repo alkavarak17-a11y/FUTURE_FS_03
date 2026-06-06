@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Leads</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, sans-serif;
+        }
+
+        body{
+            background:#f4f6f9;
+        }
+
+        .navbar{
+            background:#2c3e50;
+            padding:15px 30px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .navbar h2{
+            color:white;
+        }
+
+        .navbar a{
+            color:white;
+            text-decoration:none;
+            margin-left:15px;
+            padding:8px 12px;
+            border-radius:5px;
+        }
+
+        .navbar a:hover{
+            background:#34495e;
+        }
+
+        .container{
+            width:95%;
+            margin:30px auto;
+        }
+
+        h1{
+            margin-bottom:20px;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            background:white;
+            box-shadow:0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        th,td{
+            padding:12px;
+            border:1px solid #ddd;
+            text-align:center;
+        }
+
+        th{
+            background:#007bff;
+            color:white;
+        }
+
+        select{
+            padding:5px;
+        }
+
+        .btn{
+            padding:8px 12px;
+            border:none;
+            border-radius:5px;
+            cursor:pointer;
+            color:white;
+        }
+
+        .delete{
+            background:#dc3545;
+        }
+
+        .delete:hover{
+            background:#c82333;
+        }
+
+        .update{
+            background:#28a745;
+        }
+
+        .update:hover{
+            background:#218838;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <h2>Mini CRM</h2>
+
+        <div>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/add-lead">Add Lead</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <h1>All Leads</h1>
+
+        <table>
+
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Source</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+
+            {% for lead in leads %}
+
+            <tr>
+
+                <td>{{ lead[0] }}</td>
+                <td>{{ lead[1] }}</td>
+                <td>{{ lead[2] }}</td>
+                <td>{{ lead[3] }}</td>
+
+                <td>
+                    <form action="/update-status/{{ lead[0] }}" method="POST">
+
+                        <select name="status">
+
+                            <option value="New"
+                            {% if lead[4]=='New' %}selected{% endif %}>
+                            New
+                            </option>
+
+                            <option value="Contacted"
+                            {% if lead[4]=='Contacted' %}selected{% endif %}>
+                            Contacted
+                            </option>
+
+                            <option value="Converted"
+                            {% if lead[4]=='Converted' %}selected{% endif %}>
+                            Converted
+                            </option>
+
+                        </select>
+
+                </td>
+
+                <td>{{ lead[5] }}</td>
+
+                <td>
+
+                        <button class="btn update" type="submit">
+                            Update
+                        </button>
+
+                    </form>
+
+                    <br>
+
+                    <a href="/delete-lead/{{ lead[0] }}">
+                        <button class="btn delete">
+                            Delete
+                        </button>
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+</body>
+</html>
